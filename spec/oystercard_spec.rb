@@ -22,7 +22,7 @@ describe Oystercard do
 
  describe "#deduct" do
   it 'charge 1 for a trip' do
-    expect{subject.deduct 1}.to change{subject.balance}.by 1
+    expect{subject.deduct 1}.to change{subject.balance}.by -1
   end
  end
 
