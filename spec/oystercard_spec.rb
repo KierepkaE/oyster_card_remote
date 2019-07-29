@@ -28,4 +28,10 @@ describe Oystercard do
   end
  end
 
+ describe "#in_journey?" do
+  it 'is not in journey initially' do
+    expect(subject).not_to be in_journey
+  end
+ end
+
 end
