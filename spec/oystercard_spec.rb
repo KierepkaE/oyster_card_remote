@@ -28,10 +28,20 @@ describe Oystercard do
   end
  end
 
- describe "#in_journey?" do
-  it 'is not in journey initially' do
-    expect(subject).not_to be in_journey
-  end
- end
+  context 'journey'  do
+    describe "#in_journey?" do
+      it 'is not in journey initially' do
+        expect(subject).not_to be_in_journey
+     end
+    end
+
+    describe 'touch in' do
+      it 'can be touch in ' do
+        subject.touch_in
+        expect(subject).to be_in_journey
+      end
+    end
+   end
+
 
 end
