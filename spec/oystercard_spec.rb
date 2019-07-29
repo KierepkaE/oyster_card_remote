@@ -9,6 +9,9 @@ describe Oystercard do
 
   it {is_expected.to respond_to(:top_up).with(1).argument}
 
+  it 'can be top up with certain amount' do
+    expect{subjec.top_up 10}.to change{subject.balance}.by 10
+  end
  end
 
 end
