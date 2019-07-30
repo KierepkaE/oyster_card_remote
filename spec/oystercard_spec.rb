@@ -2,6 +2,8 @@ require 'oystercard'
 describe Oystercard do
 subject(:oystercard) { described_class.new }
 let(:station) {double :station}
+let(:entry_station) {double :station}
+let(:exit_station) {double :station}
 
  it 'have initial balance' do
   expect(subject.balance).to eq(0)
@@ -30,8 +32,8 @@ let(:station) {double :station}
 
      it 'stores entry station' do
       subject.balance = 10
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq station
+      subject.touch_in(entry_station)
+      expect(subject.entry_station).to eq entry_station
      end
 
     end
@@ -53,8 +55,15 @@ let(:station) {double :station}
 
     describe 'touch out' do
       it 'can be touch in ' do
-        subject.touch_out
+        subject.touch_out(exit_station)
         expect(subject).not_to be_in_journey
+      end
+
+      it 'stores exit station' do
+        subject.balance = 10
+        subject.touch_out(exit_station)
+        expect(subject.exit_station).to eq exit_station
+
       end
 
    end
