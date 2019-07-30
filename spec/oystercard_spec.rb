@@ -21,14 +21,6 @@ subject(:oystercard) { described_class.new }
   end
  end
 
- describe "#deduct" do
-  it { is_expected.to respond_to(:deduct).with(1).argument }
-
-  it 'charge for a trip' do
-    expect{subject.deduct Oystercard::MINIMUM_FEE}.to change{subject.balance}.by -Oystercard::MINIMUM_FEE
-  end
- end
-
   context 'journey'  do
     describe "#in_journey?" do
       it 'is not in journey initially' do
