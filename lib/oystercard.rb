@@ -1,8 +1,11 @@
 class Oystercard
 
   MAXIMUM_BALANCE = 90
-  attr_reader :balance, :in_use
+  MINIMUM_FEE = 1
+  attr_reader :in_use, :min_fee
+  attr_accessor :balance
   def initialize
+    @min_fee = MINIMUM_FEE
     @balance = 0
     @in_use = false
   end
@@ -12,7 +15,7 @@ class Oystercard
     @balance += amount
   end
 
-  def deduct(fee)
+  def deduct(fee = min_fee)
     @balance -= fee
   end
 
@@ -21,6 +24,7 @@ class Oystercard
   end
 
   def touch_in
+    raise "You do not have enough money!" if balance < min_fee
     @in_use = true
   end
 
