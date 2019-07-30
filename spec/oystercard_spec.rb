@@ -4,6 +4,7 @@ subject(:oystercard) { described_class.new }
 let(:station) {double :station}
 let(:entry_station) {double :station}
 let(:exit_station) {double :station}
+let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
 
  it 'have initial balance' do
   expect(subject.balance).to eq(0)
@@ -35,7 +36,6 @@ let(:exit_station) {double :station}
       subject.touch_in(entry_station)
       expect(subject.entry_station).to eq entry_station
      end
-
     end
 
     describe 'touch in' do
@@ -58,22 +58,28 @@ let(:exit_station) {double :station}
         subject.touch_out(exit_station)
         expect(subject).not_to be_in_journey
       end
-
       it 'stores exit station' do
         subject.balance = 10
         subject.touch_out(exit_station)
         expect(subject.exit_station).to eq exit_station
-
       end
-
    end
-
-
-
 
   end
 
+  context 'completed journey' do
+    describe 'store journey' do
+      it 'has an empty list of journeys by default' do
+        expect(subject.journeys).to be_empty
+      end
 
+      it 'stores a journey in  a hash' do
+        subject.top_up 10
+        subject.touch_in(entry_station)
+        subject.touch_out(exit_station)
+        expect(subject.journeys).to include journey
+      end
 
-
+     end
+   end
 end
