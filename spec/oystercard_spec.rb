@@ -1,6 +1,7 @@
 require 'oystercard'
 describe Oystercard do
 subject(:oystercard) { described_class.new }
+let(:station) {double :station}
 
  it 'have initial balance' do
   expect(subject.balance).to eq(0)
@@ -26,12 +27,19 @@ subject(:oystercard) { described_class.new }
       it 'is not in journey initially' do
         expect(subject).not_to be_in_journey
      end
+
+     it 'stores entry station' do
+      subject.balance = 10
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+     end
+
     end
 
     describe 'touch in' do
       it 'can be touch in ' do
         subject.balance = 10
-        subject.touch_in
+        subject.touch_in(station)
         expect(subject).to be_in_journey
       end
     end
@@ -39,7 +47,7 @@ subject(:oystercard) { described_class.new }
     describe 'error when not enough balance' do
       it 'will not touch out if there is not enough money' do
         subject.balance = 0
-        expect{ subject.touch_in }.to raise_error "You do not have enough money!"
+        expect{ subject.touch_in(station) }.to raise_error "You do not have enough money!"
       end
   end
 
