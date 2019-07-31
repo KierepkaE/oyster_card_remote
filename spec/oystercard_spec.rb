@@ -25,7 +25,7 @@ let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
   end
  end
 
-  context 'journey'  do
+  context 'in journey'  do
     describe "#in_journey?" do
       it 'is not in journey initially' do
         expect(subject).not_to be_in_journey
@@ -51,7 +51,10 @@ let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
         subject.balance = 0
         expect{ subject.touch_in(station) }.to raise_error "You do not have enough money!"
       end
+    end
   end
+
+  context 'finishing journey journey' do
 
     describe 'touch out' do
       it 'can be touch in ' do
@@ -65,15 +68,12 @@ let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
       end
    end
 
-  end
-
-  context 'completed journey' do
     describe 'store journey' do
       it 'has an empty list of journeys by default' do
         expect(subject.journeys).to be_empty
       end
 
-      it 'stores a journey in  a hash' do
+      it 'stores a journey' do
         subject.top_up 10
         subject.touch_in(entry_station)
         subject.touch_out(exit_station)
