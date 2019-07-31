@@ -1,15 +1,15 @@
+require_relative 'journey'
+
 class Oystercard
 
   MAXIMUM_BALANCE = 90
   MINIMUM_FEE = 1
-  attr_reader :in_use, :min_fee, :deduct, :entry_station, :exit_station, :journeys
+  attr_reader :min_fee, :deduct,  :journeys
   attr_accessor :balance
   def initialize
     @min_fee = MINIMUM_FEE
     @balance = 0
-    @in_use = false
-    @entry_station = nil
-    @exit_station = nil
+    @current_journey = nil
     @journeys = []
   end
 
@@ -19,25 +19,28 @@ class Oystercard
   end
 
   def in_journey?
-   @in_use
+   @current_journey != nil
   end
 
   def touch_in(station)
     raise "You do not have enough money!" if balance < min_fee
-    @in_use = true
-    @entry_station = station
+    raise 'You are already travelling' if in_journey?
+    @current_journey = Journey.new(station)
   end
 
+  def touch_during(station)
+    raise "You aren't in the middle of a journey" unless in_journey?
+
+    @current_journey.touch_during station
+  end
 
   def touch_out(station)
-    deduct(min_fee)
-    @exit_station = station
-    journey_log(entry_station,exit_station)
-    @in_use = false
+    deduct(@current_journey.finish(station))
+    journey_log(@current_journey)
+    @current_journey = nil
   end
 
-  def journey_log(entry_station, exit_station)
-    journey = {entry_station: entry_station, exit_station: exit_station}
+  def journey_log(journey)
     journeys << journey
   end
 
@@ -46,4 +49,5 @@ class Oystercard
   def deduct(fee = min_fee)
     @balance -= fee
   end
+
 end

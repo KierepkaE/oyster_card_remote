@@ -15,13 +15,11 @@ describe Journey do
   it 'returns itself when journey is finished' do
     expect(subject.finish(station)).to eq subject
   end
+    # context 'entry station is give' do
+    #   subject {described_class.new(entry_station: station)}
+    #   it 'has an entry station' do
+    #     expect(subject).to eq station
+    #   end
+    # end
 
-  context 'given an entry station' do
-    subject {described_class.new(station)}
-
-    it 'has an entry station' do
-      expect(subject.entry_station.to eq entry_station
-    end
   end
-
-end
